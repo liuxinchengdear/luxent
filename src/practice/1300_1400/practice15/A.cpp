@@ -12,7 +12,7 @@ signed main() {
         if (n & 1) { cout << "-1\n"; continue; }
 
         n /= 2;
-        for (int i = 1; i <= n; i ++ ) cout << i << " " << i << " ";
+        for (int i = 1; i <= n; i ++ ) cout << i << " " << i << " "; cout << '\n';
     }
     return 0;
 }
