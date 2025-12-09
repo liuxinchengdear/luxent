@@ -9,11 +9,19 @@ vector<int> d;
 int dfs(int dep, int num, int cnt, int st) {
     if (dep == n) return cnt;
 
+    if (d[(1 << n) - st] != -1) return cnt + d[(1 << n) - st];
+
     int res = 0;
     for (int i = 0; i < n; i ++ ) {
         if (!(st >> i & 1)) {
-            if (num + a[i] == c) res = max(res, dfs(dep + 1, 0, cnt + 1, st + (1 << i)));
-            else res = max(res, dfs(dep + 1, num + a[i], cnt, st + (1 << i)));
+            if (num + a[i] == c) {
+                int t = dfs(dep + 1, 0, cnt + 1, st + (1 << i));
+                res = max(res, t); d[(1 << n) - (st + (1 << i))] = t - (cnt + 1);
+            }
+            else {
+                int t = dfs(dep + 1, num + a[i], cnt, st + (1 << i));
+                res = max(res, t); d[(1 << n) - (st + (1 << i))] = t - cnt;
+            }
         }
     }
     return res;
@@ -25,7 +33,7 @@ signed main() {
 
     cin >> n >> c;
 
-    a.resize(n); d.resize(1 << n, -1);
+    a.resize(n); d.resize((1 << n) + 1, -1);
 
     for (int  i = 0; i < n; i ++ ) cin >> a[i];
 
